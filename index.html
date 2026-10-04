@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Unfollowers Tracker | By Parserooo</title>
+  <meta name="description"
+    content="Descubre al instante qué personas sigues en Instagram y no te siguen de vuelta. 100% seguro, local y sin contraseñas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(20, 22, 33, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --ig-gradient: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+      --ig-glow: rgba(225, 48, 108, 0.35);
+      --accent-pink: #e1306c;
+      --accent-purple: #833ab4;
+      --accent-green: #10b981;
+      --accent-blue: #38bdf8;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(225, 48, 108, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(131, 58, 180, 0.14) 0%, transparent 45%);
+    }
+
+    /* NAVBAR */
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--ig-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px var(--ig-glow);
+    }
+
+    .brand-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .github-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1e2230;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .github-badge:hover {
+      background: #2a3045;
+      transform: translateY(-2px);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      max-width: 980px;
+      margin: 40px auto 30px;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(225, 48, 108, 0.1);
+      border: 1px solid rgba(225, 48, 108, 0.3);
+      color: #f43f5e;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+
+    .gradient-text {
+      background: var(--ig-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* PRIMARY CTA - COPY BUTTON */
+    .cta-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .btn-copy-main {
+      background: var(--ig-gradient);
+      border: none;
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      padding: 20px 42px;
+      border-radius: 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 12px 35px var(--ig-glow), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-copy-main:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 45px rgba(225, 48, 108, 0.55);
+    }
+
+    .btn-copy-main:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-copy-main svg {
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.3;
+    }
+
+    .secondary-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-secondary {
+      background: #171924;
+      border: 1px solid var(--card-border);
+      color: #cbd5e1;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #212536;
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* PREVIEW SHOWCASE SECTION */
+    .showcase-section {
+      max-width: 1080px;
+      margin: 0 auto 70px;
+      padding: 0 24px;
+    }
+
+    .preview-card {
+      background: linear-gradient(180deg, rgba(30, 34, 50, 0.6) 0%, rgba(15, 17, 26, 0.8) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(225, 48, 108, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* TUTORIAL / STEPS */
+    .tutorial-section {
+      max-width: 1080px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.25s;
+    }
+
+    .step-card:hover {
+      border-color: rgba(225, 48, 108, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--ig-gradient);
+      color: #fff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin-bottom: 18px;
+    }
+
+    .step-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .step-card code {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f43f5e;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.88rem;
+    }
+
+    /* FEATURES GRID */
+    .features-section {
+      max-width: 1080px;
+      margin: 0 auto 90px;
+      padding: 0 24px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.2s;
+    }
+
+    .feature-item:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+    }
+
+    .feature-item h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-item p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    /* CODE INSPECTOR DRAWER */
+    .code-section {
+      max-width: 1080px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+
+    .code-accordion {
+      background: #11131c;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .code-header {
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .code-header:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .code-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .code-body {
+      display: none;
+      padding: 20px 24px;
+      border-top: 1px solid var(--card-border);
+      background: #0b0c12;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .code-body.open {
+      display: block;
+    }
+
+    .code-body pre {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    footer a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      color: var(--accent-pink);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg>
+      </div>
+      <div class="brand-name">IG Unfollowers Tracker</div>
+    </a>
+
+    <div class="nav-links">
+      <a href="analizador_offline.html" class="nav-btn">Analizador Offline</a>
+      <a href="https://github.com/Parserooo" target="_blank" class="github-badge">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+        </svg>
+        GitHub @Parserooo
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="pill-badge">⚡ Compatible con Brave, Chrome y Opera</div>
+    <h1>Descubre quién <span class="gradient-text">no te sigue de vuelta</span> en Instagram</h1>
+    <p>
+      Olvídate de aplicaciones sospechosas que te piden contraseña. Con este script ejecutas un análisis 100% privado en
+      tu navegador con una interfaz visual increíble.
+    </p>
+
+    <div class="cta-box">
+      <!-- BOTÓN PRINCIPAL DE COPIAR -->
+      <button id="btnCopyScript" class="btn-copy-main">
+        <svg viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span id="btnCopyText">Copiar Script al Portapapeles (1 Clic)</span>
+      </button>
+
+      <div class="secondary-links">
+        <a href="https://www.instagram.com" target="_blank" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          Abrir Instagram
+        </a>
+        <a href="analizador_offline.html" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Método Alternativo: Analizador Offline
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE PREVIEW IMAGE -->
+  <section class="showcase-section">
+    <div class="preview-card">
+      <img src="assets/preview.jpg" alt="Vista previa del Rastreador de No-Seguidores en Instagram"
+        class="preview-image" />
+    </div>
+  </section>
+
+  <!-- TUTORIAL -->
+  <section class="tutorial-section">
+    <div class="section-header">
+      <h2>Tutorial: ¿Cómo usarlo en 30 segundos?</h2>
+      <p>Sigue estos sencillos pasos directamente en tu navegador favorito.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Copia el Código</h3>
+        <p>Haz clic en el botón superior <strong>"Copiar Script al Portapapeles"</strong>. Todo el código listo para
+          usar quedará copiado automáticamente.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Abre Instagram</h3>
+        <p>Inicia sesión en <a href="https://www.instagram.com" target="_blank"
+            style="color: #e1306c;">instagram.com</a> en Brave, Chrome u Opera.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Abre la Consola</h3>
+        <p>Presiona <code>F12</code> o <code>Ctrl + Shift + J</code> (en Mac: <code>Cmd + Opt + J</code>) y haz clic en
+          la pestaña <strong>Consola</strong>.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3>Pega y Ejecuta</h3>
+        <p>Si el navegador muestra advertencia, escribe <code>allow pasting</code> y Enter. Luego presiona
+          <code>Ctrl + V</code> y presiona <strong>Enter</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="section-header">
+      <h2>¿Por qué este script es superior?</h2>
+      <p>Diseñado con estándares modernos de privacidad y seguridad.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <h3>Cero Contraseñas</h3>
+        <p>Usa tu sesión activa existente en el navegador. Nunca compartes tus credenciales con nadie.</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🛡️</div>
+        <h3>Anti Rate-Limit</h3>
+        <p>Incluye retardos inteligentes (~1.8s) entre páginas para respetar los límites de la API de Instagram.</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">📊</div>
+        <h3>Exportación Completa</h3>
+        <p>Descarga la lista resultante en archivo CSV para abrir en Excel o cópiala al portapapeles.</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">✨</div>
+        <h3>Diseño Shadow DOM</h3>
+        <p>El panel flotante no afecta el diseño de Instagram ni es afectado por los estilos de la web.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE ACCORDION (INSPECTOR) -->
+  <section class="code-section">
+    <div class="code-accordion">
+      <div class="code-header" id="codeAccordionToggle">
+        <div class="code-title">
+          <span>💻 Ver código fuente completo</span>
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">(Haz clic para
+            desplegar)</span>
+        </div>
+        <span id="accordionArrow" style="color: var(--text-muted); font-weight: bold;">▼</span>
+      </div>
+      <div class="code-body" id="codeAccordionBody">
+        <pre id="codePre">Cargando código...</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <div id="toastNotification" class="toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    ¡Script copiado al portapapeles! Ahora pégalo en la consola de Instagram.
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Creado por <a href="https://github.com/Parserooo" target="_blank">@Parserooo</a> &bull; Código abierto bajo
+      Licencia MIT &bull; No afiliado a Meta ni Instagram.</p>
+  </footer>
+
+  <script>
+    let scriptCache = '';
+
+    // Cargar el script desde el archivo
+    fetch('instagram_unfollowers.js')
+      .then(res => res.text())
+      .then(code => {
+        scriptCache = code;
+        document.getElementById('codePre').textContent = code;
+      })
+      .catch(err => {
+        console.warn('No se pudo cargar externamente, usando respaldo:', err);
+      });
+
+    // Copiar con 1 clic
+    const btnCopy = document.getElementById('btnCopyScript');
+    const btnText = document.getElementById('btnCopyText');
+    const toast = document.getElementById('toastNotification');
+
+    btnCopy.addEventListener('click', async () => {
+      let codeToCopy = scriptCache;
+
+      if (!codeToCopy) {
+        try {
+          const res = await fetch('instagram_unfollowers.js');
+          codeToCopy = await res.text();
+        } catch (e) {
+          // Fallback
+          codeToCopy = document.getElementById('codePre').textContent;
+        }
+      }
+
+      navigator.clipboard.writeText(codeToCopy).then(() => {
+        btnText.textContent = '¡Copiado con éxito! 🎉';
+        btnCopy.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        toast.classList.add('show');
+
+        setTimeout(() => {
+          btnText.textContent = 'Copiar Script al Portapapeles (1 Clic)';
+          btnCopy.style.background = '';
+          toast.classList.remove('show');
+        }, 4000);
+      }).catch(err => {
+        alert('No se pudo copiar automáticamente. Por favor abre el código desplegable y cópialo manualmente.');
+      });
+    });
+
+    // Desplegable de código
+    const toggle = document.getElementById('codeAccordionToggle');
+    const body = document.getElementById('codeAccordionBody');
+    const arrow = document.getElementById('accordionArrow');
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('open');
+      arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+    });
+  </script>
+</body>
+
+</html>
